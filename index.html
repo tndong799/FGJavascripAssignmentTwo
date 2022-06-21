@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        clifford: '#3a6bfa',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="overflow-hidden">
+    <div class="flex h-[100vh] items-stretch">
+        <div class="flex flex-[40%] p-8 border-r border-[#d8dbe1]">
+            <div class="flex-1">
+                <form action="" id="form" method="post">
+                    <div class="flex flex-col">
+                        <label class="text-gray-800 text-md" for="name">Họ & tên</label>
+                        <input class="mt-2 p-2 border border-[#3a6bfa] rounded" type="text" name="fullname" class="" id="name" placeholder="Họ và tên">
+                    </div>
+
+                    <div class="flex gap-x-5 mt-5">
+                        <div class="flex flex-col flex-[50%]">
+                            <label class="text-gray-800 text-md" for="yearsOfBirth">Năm sinh</label>
+                            <select class="mt-2 border p-2 border-[#3a6bfa] rounded" name="yearsOfBirth" id="yearsOfBirth">
+                                <option value="">Năm sinh</option>
+                            </select>
+                        </div>
+                        <div class="flex-[50%]">
+                            <span class="text-gray-800 text-md">Giới tính</span>
+                            <div class="flex mt-2 justify-between">
+                                <div class="flex items-center">
+                                    <input class="mr-1" type="radio" name="gender" id="male" value="Nam">
+                                    <label for="male">Nam</label>
+                                </div>
+                                <div>
+                                    <input class="mr-1" type="radio" name="gender" id="female" value="Nữ">
+                                    <label for="female">Nữ</label>
+                                </div>
+                                <div>
+                                    <input class="mr-1" type="radio" name="gender" id="other" value="Khác">
+                                    <label for="other">Khác</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <button type="submit" class="py-2 px-5 text-white bg-blue-500 rounded" id="submit">Nhập</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="relative z-2 flex flex-[60%] flex-col p-8 overflow-hidden ">
+            <h5 class="text-gray-800 text-md">Danh sách đã nhập</h5>
+            <div class="flex-1 flex flex-col mt-3 overflow-hidden">
+                <div class="flex justify-between">
+                    <div class="flex gap-x-5">
+                        <div>
+                            <label class="text-gray-800 text-md" for="yearsFilter">Lọc</label>
+                            <select class="ml-5 border p-2 border-[#3a6bfa] rounded" name="yearsFilter" id="yearsFilter">
+                                <option value="">Năm sinh</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select class="border p-2 border-[#3a6bfa] rounded" name="genderFilter" id="genderFilter">
+                                <option value="">Giới tính</option>
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                                <option value="Khác">Khác</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex gap-x-5">
+                        <div>
+                            <label class="text-gray-800 text-md">Sắp xếp</label>
+                            <select class="ml-5 border p-2 border-[#3a6bfa] rounded" name="fieldSort" id="fieldSort">
+                                <option value="fullname">Họ & tên</option>
+                                <option value="year">Năm sinh</option>
+                                <option value="gender">Giới tính</option>
+                                <option value="createTime">Thời gian tạo</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select class="border p-2 border-[#3a6bfa] rounded" name="sort" id="sort">
+                                <option value="asc">Tăng</option>
+                                <option value="desc">Giảm</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative z-1 flex-1 overflow-x-auto shadow-md sm:rounded-lg mt-3">
+                    <table class="overflow-scroll w-full text-md text-left text-gray-500 dark:text-gray-400">
+                        <thead class="sticky top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    #
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Họ & Tên
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Năm sinh
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Giới tính
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Thời gian tạo
+                                </th>
+                                <!-- <th scope="col" class="px-6 py-3">
+                                    <span class="sr-only">Edit</span>
+                                </th> -->
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- 
+                                <td class="px-6 py-4 text-right">
+                                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                </td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="absolute top-[10px] right-[-100%] transition-all duration-300 ease flex items-center w-full max-w-xs p-4 space-x-4 divide-x divide-gray-200 rounded-lg shadow text-gray-400 divide-gray-700 space-x bg-gray-800" role="alert">
+        <svg class="w-5 h-5 text-blue-500" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="paper-plane" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M511.6 36.86l-64 415.1c-1.5 9.734-7.375 18.22-15.97 23.05c-4.844 2.719-10.27 4.097-15.68 4.097c-4.188 0-8.319-.8154-12.29-2.472l-122.6-51.1l-50.86 76.29C226.3 508.5 219.8 512 212.8 512C201.3 512 192 502.7 192 491.2v-96.18c0-7.115 2.372-14.03 6.742-19.64L416 96l-293.7 264.3L19.69 317.5C8.438 312.8 .8125 302.2 .0625 289.1s5.469-23.72 16.06-29.77l448-255.1c10.69-6.109 23.88-5.547 34 1.406S513.5 24.72 511.6 36.86z"></path></svg>
+        <div class="pl-4 text-md font-normal" id="message"></div>
+    </div>
+
+    <script src="./app.js"></script>
+</body>
+</html>
