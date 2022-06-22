@@ -39,7 +39,7 @@
                             <span class="text-gray-800 text-md">Giới tính</span>
                             <div class="flex mt-2 justify-between">
                                 <div class="flex items-center">
-                                    <input class="mr-1" type="radio" name="gender" id="male" value="Nam">
+                                    <input class="mr-1" checked type="radio" name="gender" id="male" value="Nam">
                                     <label for="male">Nam</label>
                                 </div>
                                 <div>
@@ -66,7 +66,7 @@
                 <div class="flex justify-between">
                     <div class="flex gap-x-5">
                         <div>
-                            <label class="text-gray-800 text-md" for="yearsFilter">Lọc</label>
+                            <label class="text-gray-800 text-md">Lọc:</label>
                             <select class="ml-5 border p-2 border-[#3a6bfa] rounded" name="yearsFilter" id="yearsFilter">
                                 <option value="">Năm sinh</option>
                             </select>
@@ -82,10 +82,11 @@
                     </div>
                     <div class="flex gap-x-5">
                         <div>
-                            <label class="text-gray-800 text-md">Sắp xếp</label>
+                            <label class="text-gray-800 text-md">Sắp xếp:</label>
                             <select class="ml-5 border p-2 border-[#3a6bfa] rounded" name="fieldSort" id="fieldSort">
+                                <option value="">Chọn cột</option>
                                 <option value="fullname">Họ & tên</option>
-                                <option value="year">Năm sinh</option>
+                                <option value="yearsOfBirth">Năm sinh</option>
                                 <option value="gender">Giới tính</option>
                                 <option value="createTime">Thời gian tạo</option>
                             </select>
@@ -98,9 +99,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="relative z-1 flex-1 overflow-x-auto shadow-md sm:rounded-lg mt-3">
-                    <table class="overflow-scroll w-full text-md text-left text-gray-500 dark:text-gray-400">
-                        <thead class="sticky top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <div class="relative z-1 flex-1 overflow-x-auto shadow-md mt-3">
+                    <table class="overflow-scroll w-full text-md text-left text-gray-500">
+                        <thead class="sticky top-0 text-sm text-gray-700 bg-gray-100">
                             <tr>
                                 <th scope="col" class="px-6 py-3">
                                     #
@@ -125,7 +126,7 @@
                         <tbody id="tableBody">
                             <!-- 
                                 <td class="px-6 py-4 text-right">
-                                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                    <a href="#" class="font-medium text-blue-600  hover:underline">Edit</a>
                                 </td>
                             </tr> -->
                         </tbody>
