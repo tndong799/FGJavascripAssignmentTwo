@@ -12,6 +12,9 @@ const submit = $('#submit');
 const form = $('#form');
 const tableBody = $('#tableBody');
 
+const toast = $('#toast');
+const messageEl = $('#message');
+
 const selectFieldSort = $('#fieldSort');
 const sortDirec = $('#sort');
 
@@ -57,8 +60,6 @@ const loadYearsOfBirthFilterOptions = (data) => {
 
 // Hiển thị message thông báo
 const showToast = (message) => {
-    const toast = $('#toast');
-    const messageEl = $('#message');
     if(message){
         messageEl.innerText = message;
         toast.className = toast.className.replace('right-[-100%]','right-[20px]');
@@ -135,6 +136,7 @@ const filterData = (options) => {
 
 // Hàm sắp xếp data
 const sortData = ({fieldSort ,sort}) => {
+    // Sắp xếp tăng dần
     if(fieldSort && sort === 'asc'){
         if(fieldSort === 'createTime'){
             return dataFilter.sort((a, b) => new Date(a[fieldSort]).getTime() - new Date(b[fieldSort]).getTime())
@@ -142,6 +144,7 @@ const sortData = ({fieldSort ,sort}) => {
         return dataFilter.sort((a,b) => (a[fieldSort] > b[fieldSort]) ? 1 : ((b[fieldSort] > a[fieldSort]) ? -1 : 0))
     }
 
+    // sắp xếp giảm dần
     if(fieldSort && sort === 'desc'){
         if(fieldSort === 'createTime'){
             return dataFilter.sort((a, b) => new Date(b[fieldSort]).getTime() - new Date(a[fieldSort]).getTime())
@@ -198,7 +201,7 @@ form.addEventListener('submit', (e) => {
     }
 })
 
-// Sự kiện change select
+// Lọc theo năm sinh
 selectYearFilter.addEventListener('change', (e) => {
     // Select 2 điều kiện
     filterOptions[e.target.name] = e.target.value
@@ -206,7 +209,7 @@ selectYearFilter.addEventListener('change', (e) => {
     showData(dataFilter)
 })
 
-// Sự kiện change select
+// Lọc theo giới tính
 selectGenderFilter.addEventListener('change', (e) => {
     // Select 2 điều kiện
     filterOptions[e.target.name] = e.target.value
@@ -214,12 +217,15 @@ selectGenderFilter.addEventListener('change', (e) => {
     showData(dataFilter)
 })
 
+// Chọn cột để sắp xếp
 selectFieldSort.addEventListener('change', (e) => {
     sortConditions[e.target.name] = e.target.value
     dataFilter = sortData(sortConditions);
     showData(dataFilter)
 
 })
+
+// Chọn hướng để sắp xếp (tăng dần or giảm dần)
 sortDirec.addEventListener('change', (e) => {
     sortConditions[e.target.name] = e.target.value
     sortConditions.fieldSort ? dataFilter = sortData(sortConditions) : showToast('Vui lòng chọn trường sắp xếp')
