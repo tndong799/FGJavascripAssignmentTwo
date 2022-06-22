@@ -31,11 +31,11 @@ const sortConditions = {
 
 // Load các option cho ô select trong form nhập
 const loadYearsOfBirthOptions = (options) => {
-    let optionsSelect = ''
+    let optionsSelect = '<option value="">Năm sinh</option>'
     for(option of options){
         optionsSelect += `<option value=${option}>${option}</option>`
     }
-    select.innerHTML += optionsSelect;
+    select.innerHTML = optionsSelect;
 }
 
 // Load các option cho ô select trong filter
@@ -47,12 +47,12 @@ const loadYearsOfBirthFilterOptions = (data) => {
         ))
     ).sort((a,b) => a.yearsOfBirth - b.yearsOfBirth)
 
-    let optionsSelect = ''
+    let optionsSelect = '<option value="">Năm sinh</option>'
 
     for(d of cloneData){
         optionsSelect += `<option value=${d.yearsOfBirth}>${d.yearsOfBirth}</option>`
     }
-    selectYearFilter.innerHTML += optionsSelect;
+    selectYearFilter.innerHTML = optionsSelect;
 }
 
 // Hiển thị message thông báo
@@ -74,8 +74,7 @@ const showToast = (message) => {
 
 // Lấy data từ localStorage về
 const loadData = () => {
-    data = JSON.parse(localStorage.getItem('data')) || [];
-    dataFilter = [...data]
+    return JSON.parse(localStorage.getItem('data')) || [];
 }
 
 // Lưu data lên localStorage
@@ -137,11 +136,21 @@ const filterData = (options) => {
 // Hàm sắp xếp data
 const sortData = ({fieldSort ,sort}) => {
     if(fieldSort && sort === 'asc'){
-        dataFilter = dataFilter.sort((a,b) => (a[fieldSort] > b[fieldSort]) ? 1 : ((b[fieldSort] > a[fieldSort]) ? -1 : 0))
-    }else if(fieldSort && sort === 'desc'){
-        dataFilter = dataFilter.sort((a,b) => (a[fieldSort] < b[fieldSort]) ? 1 : ((b[fieldSort] < a[fieldSort]) ? -1 : 0))
-    }else if(!fieldSort){
-        return
+        if(fieldSort === 'createTime'){
+            return dataFilter.sort((a, b) => new Date(a[fieldSort]).getTime() - new Date(b[fieldSort]).getTime())
+        }
+        return dataFilter.sort((a,b) => (a[fieldSort] > b[fieldSort]) ? 1 : ((b[fieldSort] > a[fieldSort]) ? -1 : 0))
+    }
+
+    if(fieldSort && sort === 'desc'){
+        if(fieldSort === 'createTime'){
+            return dataFilter.sort((a, b) => new Date(b[fieldSort]).getTime() - new Date(a[fieldSort]).getTime())
+        }
+        return dataFilter.sort((a,b) => (a[fieldSort] < b[fieldSort]) ? 1 : ((b[fieldSort] < a[fieldSort]) ? -1 : 0))
+    }
+
+    if(!fieldSort){
+        return dataFilter
     }
 }
 
@@ -207,20 +216,21 @@ selectGenderFilter.addEventListener('change', (e) => {
 
 selectFieldSort.addEventListener('change', (e) => {
     sortConditions[e.target.name] = e.target.value
-    sortData(sortConditions);
+    dataFilter = sortData(sortConditions);
     showData(dataFilter)
 
 })
 sortDirec.addEventListener('change', (e) => {
     sortConditions[e.target.name] = e.target.value
-    sortData(sortConditions);
+    sortConditions.fieldSort ? dataFilter = sortData(sortConditions) : showToast('Vui lòng chọn trường sắp xếp')
+    
     showData(dataFilter)
 })
 
 // Hàm render app
 const render = () => {
     loadYearsOfBirthOptions(options)
-    loadData()
+    data = loadData()
     loadYearsOfBirthFilterOptions(data)
     showData(data)
 }
