@@ -29,7 +29,7 @@ const sortConditions = {
 }
 
 
-// LOAD OPTIONS OF YEAR SELECT FORM
+// Load các option cho ô select trong form nhập
 const loadYearsOfBirthOptions = (options) => {
     let optionsSelect = ''
     for(option of options){
@@ -38,7 +38,7 @@ const loadYearsOfBirthOptions = (options) => {
     select.innerHTML += optionsSelect;
 }
 
-// LOAD OPTIONS OF YEAR SELECT FILTER
+// Load các option cho ô select trong filter
 const loadYearsOfBirthFilterOptions = (data) => {
     // lọc các data có trùng năm sinh và sắp xếp tăng dần theo năm sinh
     const cloneData = [...data].filter((value, index, self) =>
@@ -55,7 +55,7 @@ const loadYearsOfBirthFilterOptions = (data) => {
     selectYearFilter.innerHTML += optionsSelect;
 }
 
-// SHOW MESSAGE WHEN HAVE ALEART
+// Hiển thị message thông báo
 const showToast = (message) => {
     const toast = $('#toast');
     const messageEl = $('#message');
@@ -72,18 +72,18 @@ const showToast = (message) => {
 }
 
 
-// GET DATA FROM LOCAL STORAGE
+// Lấy data từ localStorage về
 const loadData = () => {
     data = JSON.parse(localStorage.getItem('data')) || [];
     dataFilter = [...data]
 }
 
-// SET DATA TO LOCAL STORAGE
+// Lưu data lên localStorage
 const setData = (data) => {
     localStorage.setItem('data',JSON.stringify(data));
 }
 
-// SHOW DATA IN TABLE
+// Hàm hiển thị data trong table
 const showData = (data) => {
     let dataEl = ''
     if(data){
@@ -104,7 +104,7 @@ const showData = (data) => {
             <td class="px-6 py-4 relative">
                 ${val.createTime}
                 <button class='absolute right-4 ml-4 text-red-400 hidden group-hover:inline-flex' onclick=(handleRemoveData('${val.id}'))>
-                <svg class="w-5 h-5 text-red-400 hover:text-red-600 transition-all duration-200 ease" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Trash</title><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352"/><path d="M192 112V72h0a23.93 23.93 0 0124-24h80a23.93 23.93 0 0124 24h0v40M256 176v224M184 176l8 224M328 176l-8 224" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
+                    <svg class="w-5 h-5 text-red-400 hover:text-red-600 transition-all duration-200 ease" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Trash</title><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352"/><path d="M192 112V72h0a23.93 23.93 0 0124-24h80a23.93 23.93 0 0124 24h0v40M256 176v224M184 176l8 224M328 176l-8 224" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
                 </button>
             </td>
         </tr>`
@@ -113,7 +113,7 @@ const showData = (data) => {
     tableBody.innerHTML = dataEl
 }
 
-// HANDLE FILTER DATA
+// Hàm xử lý lọc data theo điều kiện
 const filterData = (options) => {
     const {yearsFilter, genderFilter} = options
 
@@ -123,9 +123,7 @@ const filterData = (options) => {
             return val
         })
     }else if(!yearsFilter && !genderFilter){
-        dataFilter = data.filter((val) => {
-            return val
-        })
+        dataFilter = [...data]
     }
     else{
         dataFilter = data.filter((val) => {
@@ -136,18 +134,18 @@ const filterData = (options) => {
     
 }
 
-// HANDLE SORT DATA
+// Hàm sắp xếp data
 const sortData = ({fieldSort ,sort}) => {
     if(fieldSort && sort === 'asc'){
         dataFilter = dataFilter.sort((a,b) => (a[fieldSort] > b[fieldSort]) ? 1 : ((b[fieldSort] > a[fieldSort]) ? -1 : 0))
     }else if(fieldSort && sort === 'desc'){
         dataFilter = dataFilter.sort((a,b) => (a[fieldSort] < b[fieldSort]) ? 1 : ((b[fieldSort] < a[fieldSort]) ? -1 : 0))
-    }else{
-        dataFilter = [...data]
+    }else if(!fieldSort){
+        return
     }
 }
 
-// HANDLE DELETE DATA
+// Hàm xóa data theo Id
 const handleRemoveData = (id) => {
     data = data.filter(val => val.id !== id)
     setData(data)
@@ -156,7 +154,7 @@ const handleRemoveData = (id) => {
 }
 
 
-// HANDLE FORM WHEN SUBMIT
+// Xử lý submit data form
 form.addEventListener('submit', (e) => {
     e.preventDefault()
     const formData = new FormData(e.target);
@@ -191,7 +189,7 @@ form.addEventListener('submit', (e) => {
     }
 })
 
-// HANLE ON CHANGE SELECT YEAR FILTER
+// Sự kiện change select
 selectYearFilter.addEventListener('change', (e) => {
     // Select 2 điều kiện
     filterOptions[e.target.name] = e.target.value
@@ -199,7 +197,7 @@ selectYearFilter.addEventListener('change', (e) => {
     showData(dataFilter)
 })
 
-// HANDLE ON CHANGE SELECT GENDER FILTER
+// Sự kiện change select
 selectGenderFilter.addEventListener('change', (e) => {
     // Select 2 điều kiện
     filterOptions[e.target.name] = e.target.value
@@ -219,11 +217,12 @@ sortDirec.addEventListener('change', (e) => {
     showData(dataFilter)
 })
 
+// Hàm render app
 const render = () => {
     loadYearsOfBirthOptions(options)
     loadData()
     loadYearsOfBirthFilterOptions(data)
-    showData(data);
+    showData(data)
 }
 
 render();
