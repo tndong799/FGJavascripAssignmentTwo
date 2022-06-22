@@ -75,7 +75,7 @@ const showToast = (message) => {
 
 // GET DATA FROM LOCAL STORAGE
 const loadData = () => {
-    data = JSON.parse(localStorage.getItem('data'));
+    data = JSON.parse(localStorage.getItem('data')) || [];
     dataFilter = [...data]
 }
 
