@@ -46,7 +46,6 @@ const loadYearsOfBirthFilterOptions = (data) => {
             t.yearsOfBirth === value.yearsOfBirth
         ))
     ).sort((a,b) => a.yearsOfBirth - b.yearsOfBirth)
-    console.log(cloneData)
 
     let optionsSelect = ''
 
