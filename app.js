@@ -237,6 +237,7 @@ sortDirec.addEventListener('change', (e) => {
 const render = () => {
     loadYearsOfBirthOptions(1990)
     data = loadData()
+    dataFilter = [...data]
     loadYearsOfBirthFilterOptions(data)
     showData(data)
 }
