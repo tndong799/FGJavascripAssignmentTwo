@@ -118,15 +118,15 @@ const filterData = (options) => {
     const {yearsFilter, genderFilter} = options
 
     if(yearsFilter && genderFilter){
-        dataFilter = data.filter((val) => {
+        return data.filter((val) => {
             if(val.yearsOfBirth == yearsFilter && val.gender == genderFilter)
             return val
         })
     }else if(!yearsFilter && !genderFilter){
-        dataFilter = [...data]
+        return [...data]
     }
     else{
-        dataFilter = data.filter((val) => {
+        return data.filter((val) => {
             if(val.yearsOfBirth == yearsFilter || val.gender == genderFilter)
             return val
         })
@@ -205,7 +205,7 @@ form.addEventListener('submit', (e) => {
 selectYearFilter.addEventListener('change', (e) => {
     // Select 2 điều kiện
     filterOptions[e.target.name] = e.target.value
-    filterData(filterOptions)
+    dataFilter = filterData(filterOptions)
     showData(dataFilter)
 })
 
@@ -213,7 +213,7 @@ selectYearFilter.addEventListener('change', (e) => {
 selectGenderFilter.addEventListener('change', (e) => {
     // Select 2 điều kiện
     filterOptions[e.target.name] = e.target.value
-    filterData(filterOptions)
+    dataFilter = filterData(filterOptions)
     showData(dataFilter)
 })
 
