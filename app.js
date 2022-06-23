@@ -44,7 +44,7 @@ const loadYearsOfBirthOptions = (yearStart, yearEnd = new Date().getFullYear()) 
 // Load các option cho ô select trong filter
 const loadYearsOfBirthFilterOptions = (data) => {
     // lọc các data có trùng năm sinh và sắp xếp tăng dần theo năm sinh
-    const cloneData = [...data].filter((value, index, self) =>
+    const dataFilteredAndSorted = [...data].filter((value, index, self) =>
         index === self.findIndex((t) => (
             t.yearsOfBirth === value.yearsOfBirth
         ))
@@ -52,7 +52,7 @@ const loadYearsOfBirthFilterOptions = (data) => {
 
     let optionsSelect = '<option value="">Năm sinh</option>'
 
-    for(d of cloneData){
+    for(d of dataFilteredAndSorted){
         optionsSelect += `<option value=${d.yearsOfBirth}>${d.yearsOfBirth}</option>`
     }
     selectYearFilter.innerHTML = optionsSelect;
@@ -206,6 +206,7 @@ selectYearFilter.addEventListener('change', (e) => {
     // Select 2 điều kiện
     filterOptions[e.target.name] = e.target.value
     dataFilter = filterData(filterOptions)
+    dataFilter = sortData(sortConditions)
     showData(dataFilter)
 })
 
@@ -214,12 +215,14 @@ selectGenderFilter.addEventListener('change', (e) => {
     // Select 2 điều kiện
     filterOptions[e.target.name] = e.target.value
     dataFilter = filterData(filterOptions)
+    dataFilter = sortData(sortConditions)
     showData(dataFilter)
 })
 
 // Chọn cột để sắp xếp
 selectFieldSort.addEventListener('change', (e) => {
     sortConditions[e.target.name] = e.target.value
+    dataFilter = filterData(filterOptions);
     dataFilter = sortData(sortConditions);
     showData(dataFilter)
 
@@ -228,6 +231,7 @@ selectFieldSort.addEventListener('change', (e) => {
 // Chọn hướng để sắp xếp (tăng dần or giảm dần)
 sortDirec.addEventListener('change', (e) => {
     sortConditions[e.target.name] = e.target.value
+    dataFilter = filterData(filterOptions);
     sortConditions.fieldSort ? dataFilter = sortData(sortConditions) : showToast('Vui lòng chọn trường sắp xếp')
     
     showData(dataFilter)
