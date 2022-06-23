@@ -2,7 +2,7 @@ const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
 
-const options = [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022];
+// const options = [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022];
 
 
 const select = $('#yearsOfBirth');
@@ -33,10 +33,10 @@ const sortConditions = {
 
 
 // Load các option cho ô select trong form nhập
-const loadYearsOfBirthOptions = (options) => {
+const loadYearsOfBirthOptions = (yearStart, yearEnd = new Date().getFullYear()) => {
     let optionsSelect = '<option value="">Năm sinh</option>'
-    for(option of options){
-        optionsSelect += `<option value=${option}>${option}</option>`
+    for(let i = yearStart; i <= yearEnd; i++){
+        optionsSelect += `<option value=${i}>${i}</option>`
     }
     select.innerHTML = optionsSelect;
 }
@@ -235,7 +235,7 @@ sortDirec.addEventListener('change', (e) => {
 
 // Hàm render app
 const render = () => {
-    loadYearsOfBirthOptions(options)
+    loadYearsOfBirthOptions(1990)
     data = loadData()
     loadYearsOfBirthFilterOptions(data)
     showData(data)
