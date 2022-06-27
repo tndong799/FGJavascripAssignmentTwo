@@ -2,4 +2,5 @@
 <ul>
     <li>Trần Ngọc Đông - FG Homework</li>
     <li>Bài làm sử dụng Tailwind CSS và JS thuần</li>
+    <li>Form Input em chưa validate đâu nha a!!!!</li>
 </ul>
