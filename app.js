@@ -86,8 +86,8 @@ const setData = (data) => {
 // Hàm hiển thị data trong table
 const showData = (data) => {
     let dataEl = ''
-    if(data){
-        for(let [index, val] of data.entries()){
+    if(data.length > 0){
+        data.forEach((val, index) => {
             dataEl += `<tr class="group bg-white border-b text-sm text-gray-600 hover:bg-gray-50 ">
             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                 ${++index}
@@ -108,7 +108,15 @@ const showData = (data) => {
                 </button>
             </td>
         </tr>`
-        }
+        })
+    }else{
+        dataEl = `
+            <tr class="group bg-white border-b text-sm text-gray-600 hover:bg-gray-50 ">
+                <td class="px-6 py-4 text-center" colspan="5">
+                    Không tìm thấy kết quả
+                </td>
+            </tr>
+        `
     }
     tableBody.innerHTML = dataEl
 }
@@ -159,7 +167,8 @@ const sortData = ({fieldSort ,sort}) => {
 
 // Hàm xóa data theo Id
 const handleRemoveData = (id) => {
-    data = data.filter(val => val.id !== id)
+    let index = data.map( val => val.id).indexOf(id);
+    const dataDelete = data.splice(index,1)
     setData(data)
     showToast('Bạn đã xóa thành công')
     render()
